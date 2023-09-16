@@ -36,6 +36,6 @@ if __name__ == '__main__':
     # Replace with your input image path
     input_image_path = './static/images/faces.png'
     # Replace with your desired output image path
-    output_image_path = './static/images/output.png'
+    output_image_path = './static/output/output.png'
     face_count = count_and_highlight_faces(input_image_path, output_image_path)
     print(f'Total Faces Detected: {face_count}')
