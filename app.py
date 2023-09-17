@@ -47,6 +47,7 @@ def index():
 
             # Calculate the processing time
             processing_time = time.time() - start_time
+            processing_time = round(processing_time, 2)
 
             return render_template('index.html',
                                    uploaded=True,
