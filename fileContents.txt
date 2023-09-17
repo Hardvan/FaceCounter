@@ -1,60 +1,61 @@
 app.py:
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
+import os
+import cv2
+import time
+
+
+# Custom modules
+import CountFaces
+
 
 app = Flask(__name__)
 
+app.config['UPLOAD_FOLDER'] = 'static/uploads/'
 
-@app.route('/')
+
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
+
+    if request.method == 'POST':
+        # Check if the post request has the file part
+        if 'file' not in request.files:
+            return redirect(request.url)
+
+        file = request.files['file']
+
+        # If the user does not select a file, the browser submits an empty file
+        if file.filename == '':
+            return redirect(request.url)
+
+        if file:
+            # Save the uploaded image to the UPLOAD_FOLDER
+            image_path = os.path.join(
+                app.config['UPLOAD_FOLDER'], 'uploaded_image.jpg')
+            file.save(image_path)
+
+            # Measure the time taken to process the image
+            start_time = time.time()
+
+            # Call the face detection function
+            output_image_path = os.path.join(
+                app.config['UPLOAD_FOLDER'], 'output_image.jpg')
+            face_count = CountFaces.count_and_highlight_faces(
+                image_path, output_image_path)
+
+            # Calculate the processing time
+            processing_time = time.time() - start_time
+
+            return render_template('index.html',
+                                   uploaded=True,
+                                   face_count=face_count,
+                                   processing_time=processing_time)
+
+    return render_template('index.html', uploaded=False)
 
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-
-CountFaces.py:
-import cv2
-
-
-def count_and_highlight_faces(input_image_path, output_image_path):
-
-    # Load the pre-trained face detection model
-    face_cascade = cv2.CascadeClassifier(
-        cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-
-    # Read the input image
-    image = cv2.imread(input_image_path)
-
-    # Convert the image to grayscale for face detection
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-    # Perform face detection
-    faces = face_cascade.detectMultiScale(
-        gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
-
-    # Draw rectangles around detected faces and label them
-    for i, (x, y, w, h) in enumerate(faces):
-        cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
-        cv2.putText(image, f'Face {i + 1}', (x, y - 10),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
-
-    # Save the output image with faces highlighted
-    cv2.imwrite(output_image_path, image)
-
-    # Return the count of detected faces
-    return len(faces)
-
-
-# Example usage:
-if __name__ == '__main__':
-
-    # Replace with your input image path
-    input_image_path = './static/images/faces.png'
-    # Replace with your desired output image path
-    output_image_path = './static/output/output.png'
-    face_count = count_and_highlight_faces(input_image_path, output_image_path)
-    print(f'Total Faces Detected: {face_count}')
 
 
 templates/index.html:
@@ -79,32 +80,54 @@ templates/index.html:
     <h3>Telling you the number of faces in the picture you provide</h3>
 
     <!-- Input to accept image from user -->
-    <label for="file" class="custum-file-upload">
-      <div class="icon">
-        <svg viewBox="0 0 24 24" fill="" xmlns="http://www.w3.org/2000/svg">
-          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-          <g
-            id="SVGRepo_tracerCarrier"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          ></g>
-          <g id="SVGRepo_iconCarrier">
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M10 1C9.73478 1 9.48043 1.10536 9.29289 1.29289L3.29289 7.29289C3.10536 7.48043 3 7.73478 3 8V20C3 21.6569 4.34315 23 6 23H7C7.55228 23 8 22.5523 8 22C8 21.4477 7.55228 21 7 21H6C5.44772 21 5 20.5523 5 20V9H10C10.5523 9 11 8.55228 11 8V3H18C18.5523 3 19 3.44772 19 4V9C19 9.55228 19.4477 10 20 10C20.5523 10 21 9.55228 21 9V4C21 2.34315 19.6569 1 18 1H10ZM9 7H6.41421L9 4.41421V7ZM14 15.5C14 14.1193 15.1193 13 16.5 13C17.8807 13 19 14.1193 19 15.5V16V17H20C21.1046 17 22 17.8954 22 19C22 20.1046 21.1046 21 20 21H13C11.8954 21 11 20.1046 11 19C11 17.8954 11.8954 17 13 17H14V16V15.5ZM16.5 11C14.142 11 12.2076 12.8136 12.0156 15.122C10.2825 15.5606 9 17.1305 9 19C9 21.2091 10.7909 23 13 23H20C22.2091 23 24 21.2091 24 19C24 17.1305 22.7175 15.5606 20.9844 15.122C20.7924 12.8136 18.858 11 16.5 11Z"
-              fill=""
-            ></path>
-          </g>
-        </svg>
-      </div>
-      <div class="text">
-        <span>Click to upload image</span>
-      </div>
-      <input id="file" type="file" />
-    </label>
+    <form method="POST" enctype="multipart/form-data">
+      <label for="file" class="custum-file-upload">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="" xmlns="http://www.w3.org/2000/svg">
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g
+              id="SVGRepo_tracerCarrier"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></g>
+            <g id="SVGRepo_iconCarrier">
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M10 1C9.73478 1 9.48043 1.10536 9.29289 1.29289L3.29289 7.29289C3.10536 7.48043 3 7.73478 3 8V20C3 21.6569 4.34315 23 6 23H7C7.55228 23 8 22.5523 8 22C8 21.4477 7.55228 21 7 21H6C5.44772 21 5 20.5523 5 20V9H10C10.5523 9 11 8.55228 11 8V3H18C18.5523 3 19 3.44772 19 4V9C19 9.55228 19.4477 10 20 10C20.5523 10 21 9.55228 21 9V4C21 2.34315 19.6569 1 18 1H10ZM9 7H6.41421L9 4.41421V7ZM14 15.5C14 14.1193 15.1193 13 16.5 13C17.8807 13 19 14.1193 19 15.5V16V17H20C21.1046 17 22 17.8954 22 19C22 20.1046 21.1046 21 20 21H13C11.8954 21 11 20.1046 11 19C11 17.8954 11.8954 17 13 17H14V16V15.5ZM16.5 11C14.142 11 12.2076 12.8136 12.0156 15.122C10.2825 15.5606 9 17.1305 9 19C9 21.2091 10.7909 23 13 23H20C22.2091 23 24 21.2091 24 19C24 17.1305 22.7175 15.5606 20.9844 15.122C20.7924 12.8136 18.858 11 16.5 11Z"
+                fill=""
+              ></path>
+            </g>
+          </svg>
+        </div>
+        <div class="text">
+          <span>Click to upload image</span>
+        </div>
+        <input id="file" type="file" name="file" accept=".jpg, .jpeg, .png" />
+        <input type="submit" value="Upload and Analyze" class="btn" />
+      </label>
+    </form>
 
     <!-- Display the original & ourput image side by side -->
+    {% if uploaded %}
+    <div class="result">
+      <div class="image">
+        <h2>Original Image</h2>
+        <img
+          src="{{ url_for('static', filename='uploads/uploaded_image.jpg') }}"
+          alt="Original Image"
+        />
+      </div>
+      <div class="image">
+        <h2>Result Image ({{ face_count }} Faces Detected)</h2>
+        <img
+          src="{{ url_for('static', filename='uploads/output_image.jpg') }}"
+          alt="Result Image"
+        />
+      </div>
+    </div>
+    <p>Processing Time: {{ processing_time }} seconds</p>
+    {% endif %}
 
     <!-- Display the number of faces detected -->
 
@@ -116,6 +139,16 @@ templates/index.html:
 
     <!-- Custom JS -->
     <script src="./static/js/index.js"></script>
+    <script>
+      // JavaScript code to automatically submit the form on file selection
+      document.addEventListener("DOMContentLoaded", function () {
+        const fileInput = document.getElementById("file");
+        fileInput.addEventListener("change", function () {
+          const form = fileInput.parentElement.parentElement;
+          form.submit();
+        });
+      });
+    </script>
   </body>
 </html>
 
