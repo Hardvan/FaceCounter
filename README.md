@@ -2,6 +2,10 @@
 
 This project provides a Python script for counting faces in an image and a web application to visualize the count and highlight the faces in the image.
 
+## Project Flowchart
+
+![ML and Web Dev Flowchat](./static/images/ML%20and%20Web%20Dev%20Flowchat.png)
+
 ## Installation
 
 1. Clone the repo
