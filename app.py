@@ -49,6 +49,9 @@ def index():
             processing_time = time.time() - start_time
             processing_time = round(processing_time, 2)
 
+            # Delay for 5 seconds on purpose (for testing Loading... animation)
+            time.sleep(5)
+
             return render_template('index.html',
                                    uploaded=True,
                                    face_count=face_count,

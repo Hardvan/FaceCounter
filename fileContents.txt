@@ -50,6 +50,9 @@ def index():
             processing_time = time.time() - start_time
             processing_time = round(processing_time, 2)
 
+            # Delay for 5 seconds on purpose (for testing Loading... animation)
+            time.sleep(5)
+
             return render_template('index.html',
                                    uploaded=True,
                                    face_count=face_count,
@@ -116,6 +119,11 @@ templates/index.html:
           <input type="submit" value="Upload and Analyze" class="btn" />
         </label>
       </form>
+    </div>
+
+    <!-- Display the loading message -->
+    <div id="loading" style="display: none">
+      <p>Loading...</p>
     </div>
 
     <!-- Display the original & ourput image side by side -->
@@ -214,8 +222,201 @@ templates/index.html:
           alert("Result image URL copied to clipboard!");
         });
       });
+
+      // JavaScript code to handle loading state
+      const form = document.querySelector("form");
+      const loading = document.getElementById("loading");
+      const copyButton = document.getElementById("copyButton");
+
+      form.addEventListener("submit", function () {
+        // Show loading message
+        loading.style.display = "flex";
+
+        // Disable the "Copy Result Image" button
+        copyButton.disabled = true;
+      });
+
+      // After the result is ready, hide loading message and enable the button
+      window.addEventListener("load", function () {
+        loading.style.display = "none";
+        copyButton.disabled = false;
+      });
     </script>
   </body>
 </html>
+
+
+static/css/index.css:
+/* Add these styles to your static/css/index.css file */
+
+:root {
+  --primary-color: #bf55ec; /* Rich violet color */
+  --secondary-color: #e8e8e8; /* Light text color */
+  --dark-color: #121212; /* Dark background color */
+  --light-color: #212121; /* Light background color */
+  --shadow-color: #bf55ec; /* Rich violet shadow color */
+}
+
+body {
+  background-color: var(--dark-color);
+  color: var(--secondary-color);
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--primary-color);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: var(--light-color);
+  text-align: center;
+}
+
+.upload-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  gap: 20px;
+}
+
+.custum-file-upload {
+  height: 200px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--primary-color);
+  background-color: var(--light-color);
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0px 48px 35px -48px var(--shadow-color);
+}
+
+.custum-file-upload .icon svg {
+  height: 80px;
+  fill: var(--primary-color);
+}
+
+.custum-file-upload .text span {
+  font-weight: 400;
+  color: var(--secondary-color); /* Light text color */
+}
+
+.custum-file-upload input {
+  display: none;
+}
+
+#loading {
+  display: none;
+  margin-top: 20px;
+}
+
+#loading p {
+  font-size: 18px;
+}
+
+.result {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.result-image {
+  text-align: center;
+}
+
+.result-image h2 {
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+.result-image img {
+  width: 70%;
+  border-radius: 10px;
+}
+
+.parameters-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.parameter {
+  text-align: center;
+}
+
+.parameter h2 {
+  font-size: 18px;
+  color: var(--primary-color);
+}
+
+.parameter h3 {
+  font-size: 24px;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.footer a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 40px;
+  }
+
+  .result {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 20px;
+  }
+
+  .result-image {
+    text-align: center;
+  }
+
+  .result-image img {
+    width: 100%;
+  }
+
+  .footer {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    margin: 20px 20px;
+    text-align: center;
+  }
+
+  .footer a {
+    margin-top: 10px;
+  }
+}
 
 

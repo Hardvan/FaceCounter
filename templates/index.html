@@ -54,7 +54,7 @@
     </div>
 
     <!-- Display the loading message -->
-    <div id="loading" style="display: none">
+    <div id="loading">
       <p>Loading...</p>
     </div>
 
@@ -129,6 +129,9 @@
         const fileInput = document.getElementById("file");
         fileInput.addEventListener("change", function () {
           const form = fileInput.parentElement.parentElement;
+          // Loading message
+          const loading = document.getElementById("loading");
+          loading.style.display = "block";
           form.submit();
         });
 
@@ -159,14 +162,6 @@
       const form = document.querySelector("form");
       const loading = document.getElementById("loading");
       const copyButton = document.getElementById("copyButton");
-
-      form.addEventListener("submit", function () {
-        // Show loading message
-        loading.style.display = "flex";
-
-        // Disable the "Copy Result Image" button
-        copyButton.disabled = true;
-      });
 
       // After the result is ready, hide loading message and enable the button
       window.addEventListener("load", function () {
