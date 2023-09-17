@@ -1,8 +1,16 @@
 /* Add these styles to your static/css/index.css file */
 
+:root {
+  --primary-color: #bf55ec; /* Rich violet color */
+  --secondary-color: #e8e8e8; /* Light text color */
+  --dark-color: #121212; /* Dark background color */
+  --light-color: #212121; /* Light background color */
+  --shadow-color: #bf55ec; /* Rich violet shadow color */
+}
+
 body {
-  background-color: #121212; /* Dark background color */
-  color: #e8e8e8; /* Light text color */
+  background-color: var(--dark-color);
+  color: var(--secondary-color);
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
@@ -11,7 +19,23 @@ body {
 h1,
 h2,
 h3 {
-  color: #bf55ec; /* Rich violet color for headings */
+  color: var(--primary-color);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: var(--light-color);
+}
+
+.upload-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  gap: 20px;
 }
 
 .custum-file-upload {
@@ -23,21 +47,21 @@ h3 {
   cursor: pointer;
   align-items: center;
   justify-content: center;
-  border: 2px dashed #bf55ec; /* Rich violet border color */
-  background-color: #212121; /* Dark background color */
+  border: 2px dashed var(--primary-color);
+  background-color: var(--light-color);
   padding: 1.5rem;
   border-radius: 10px;
-  box-shadow: 0px 48px 35px -48px #bf55ec; /* Rich violet shadow color */
+  box-shadow: 0px 48px 35px -48px var(--shadow-color);
 }
 
 .custum-file-upload .icon svg {
   height: 80px;
-  fill: #bf55ec; /* Rich violet fill color */
+  fill: var(--primary-color);
 }
 
 .custum-file-upload .text span {
   font-weight: 400;
-  color: #e8e8e8; /* Light text color */
+  color: var(--secondary-color); /* Light text color */
 }
 
 .custum-file-upload input {
@@ -47,6 +71,7 @@ h3 {
 .result {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-top: 20px;
 }
 
@@ -71,11 +96,9 @@ h3 {
 
 .parameter h2 {
   font-size: 18px;
-  color: #bf55ec; /* Rich violet color for parameter headings */
+  color: var(--primary-color);
 }
 
 .parameter h3 {
   font-size: 24px;
 }
-
-/* Add more styles as needed */
