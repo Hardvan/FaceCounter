@@ -28,6 +28,7 @@ h3 {
   align-items: center;
   padding: 20px;
   background-color: var(--light-color);
+  text-align: center;
 }
 
 .upload-section {
@@ -91,7 +92,9 @@ h3 {
 
 .parameters-container {
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
+  align-items: center;
   margin-top: 20px;
 }
 
@@ -106,4 +109,54 @@ h3 {
 
 .parameter h3 {
   font-size: 24px;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.footer a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 40px;
+  }
+
+  .result {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 20px;
+  }
+
+  .result-image {
+    text-align: center;
+  }
+
+  .result-image img {
+    width: 100%;
+  }
+
+  .footer {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    margin: 20px 20px;
+    text-align: center;
+  }
+
+  .footer a {
+    margin-top: 10px;
+  }
 }
