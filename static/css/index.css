@@ -6,6 +6,7 @@
   --dark-color: #121212; /* Dark background color */
   --light-color: #212121; /* Light background color */
   --shadow-color: #bf55ec; /* Rich violet shadow color */
+  --loading-box-color: #64ccc5;
 }
 
 body {
@@ -69,15 +70,6 @@ h3 {
   display: none;
 }
 
-#loading {
-  margin-top: 20px;
-  text-align: center;
-}
-
-#loading p {
-  font-size: 18px;
-}
-
 .result {
   display: flex;
   justify-content: center;
@@ -124,7 +116,7 @@ h3 {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 200px;
 }
 
 .footer a {
@@ -161,7 +153,9 @@ h3 {
     justify-content: center;
     align-items: center;
     font-size: 10px;
-    margin: 20px 20px;
+    margin-top: 200px;
+    margin-left: 20px;
+    margin-right: 20px;
     text-align: center;
   }
 

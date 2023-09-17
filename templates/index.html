@@ -7,6 +7,7 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="./static/css/index.css" />
+    <link rel="stylesheet" href="./static/css/loader.css" />
     <link rel="stylesheet" href="./static/css/glow_button.css" />
   </head>
 
@@ -54,8 +55,19 @@
     </div>
 
     <!-- Display the loading message -->
-    <div id="loading">
-      <p>Loading...</p>
+    <div id="loading" class="loading-container">
+      <p>Processing your image...</p>
+      <div class="banter-loader">
+        <div class="banter-loader__box"></div>
+        <div class="banter-loader__box"></div>
+        <div class="banter-loader__box"></div>
+        <div class="banter-loader__box"></div>
+        <div class="banter-loader__box"></div>
+        <div class="banter-loader__box"></div>
+        <div class="banter-loader__box"></div>
+        <div class="banter-loader__box"></div>
+        <div class="banter-loader__box"></div>
+      </div>
     </div>
 
     <!-- Display the original & ourput image side by side -->
