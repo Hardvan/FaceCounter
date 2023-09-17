@@ -7,6 +7,7 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="./static/css/index.css" />
+    <link rel="stylesheet" href="./static/css/glow_button.css" />
   </head>
 
   <body>
@@ -92,7 +93,17 @@
     <!-- Display the "Share" button -->
     {% if uploaded %}
     <div class="share-button">
-      <button id="copyButton">Copy Result Image</button>
+      <button id="copyButton" class="glow-btn" type="button">
+        <strong>Copy Result Image</strong>
+        <div id="container-stars">
+          <div id="stars"></div>
+        </div>
+
+        <div id="glow">
+          <div class="circle"></div>
+          <div class="circle"></div>
+        </div>
+      </button>
     </div>
     {% endif %}
 
