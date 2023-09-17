@@ -1,3 +1,19 @@
+/* Add these styles to your static/css/index.css file */
+
+body {
+  background-color: #121212; /* Dark background color */
+  color: #e8e8e8; /* Light text color */
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3 {
+  color: #bf55ec; /* Rich violet color for headings */
+}
+
 .custum-file-upload {
   height: 200px;
   width: 300px;
@@ -7,35 +23,59 @@
   cursor: pointer;
   align-items: center;
   justify-content: center;
-  border: 2px dashed #e8e8e8;
-  background-color: #212121;
+  border: 2px dashed #bf55ec; /* Rich violet border color */
+  background-color: #212121; /* Dark background color */
   padding: 1.5rem;
   border-radius: 10px;
-  box-shadow: 0px 48px 35px -48px #e8e8e8;
-}
-
-.custum-file-upload .icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  box-shadow: 0px 48px 35px -48px #bf55ec; /* Rich violet shadow color */
 }
 
 .custum-file-upload .icon svg {
   height: 80px;
-  fill: #e8e8e8;
-}
-
-.custum-file-upload .text {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  fill: #bf55ec; /* Rich violet fill color */
 }
 
 .custum-file-upload .text span {
   font-weight: 400;
-  color: #e8e8e8;
+  color: #e8e8e8; /* Light text color */
 }
 
 .custum-file-upload input {
   display: none;
 }
+
+.result {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.result-image {
+  text-align: center;
+}
+
+.result-image h2 {
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+.parameters-container {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.parameter {
+  text-align: center;
+}
+
+.parameter h2 {
+  font-size: 18px;
+  color: #bf55ec; /* Rich violet color for parameter headings */
+}
+
+.parameter h3 {
+  font-size: 24px;
+}
+
+/* Add more styles as needed */
