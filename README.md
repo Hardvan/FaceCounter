@@ -6,6 +6,16 @@ This project provides a Python script for counting faces in an image and a web a
 
 ![ML and Web Dev Flowchat](./static/images/ML%20and%20Web%20Dev%20Flowchat.png)
 
+## Example
+
+### Input Image
+
+![Input Image](./static/images/faces.png)
+
+### Output Image
+
+![Output Image](./static/output/output.png)
+
 ## Installation
 
 1. Clone the repo
@@ -69,13 +79,3 @@ python CountFaces.py
 ```
 
 This will run the script on the image in the `images` folder and print the number of faces found in the image along with storing the image with the faces highlighted in the `output` folder.
-
-#### Example
-
-Input Image
-
-![Input Image](./static/images/faces.png)
-
-Output Image
-
-![Output Image](./static/output/output.png)
