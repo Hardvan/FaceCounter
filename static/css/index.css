@@ -70,7 +70,7 @@ h3 {
 
 .result {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-top: 20px;
 }
@@ -82,6 +82,11 @@ h3 {
 .result-image h2 {
   font-size: 18px;
   margin-top: 10px;
+}
+
+.result-image img {
+  width: 70%;
+  border-radius: 10px;
 }
 
 .parameters-container {
