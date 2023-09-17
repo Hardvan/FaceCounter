@@ -72,6 +72,7 @@ templates/index.html:
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="./static/css/index.css" />
+    <link rel="stylesheet" href="./static/css/glow_button.css" />
   </head>
 
   <body>
@@ -120,14 +121,14 @@ templates/index.html:
     <!-- Display the original & ourput image side by side -->
     {% if uploaded %}
     <div class="result">
-      <div class="result-image">
+      <div class="result-image" id="original-image">
         <h2>Original Image</h2>
         <img
           src="{{ url_for('static', filename='uploads/uploaded_image.jpg') }}"
           alt="Original Image"
         />
       </div>
-      <div class="result-image">
+      <div class="result-image" id="output-image">
         <h2>Result Image ({{ face_count }} Faces Detected)</h2>
         <img
           src="{{ url_for('static', filename='uploads/output_image.jpg') }}"
@@ -154,6 +155,23 @@ templates/index.html:
     </div>
     {% endif %}
 
+    <!-- Display the "Share" button -->
+    {% if uploaded %}
+    <div class="share-button">
+      <button id="copyButton" class="glow-btn" type="button">
+        <strong>Copy Result Image</strong>
+        <div id="container-stars">
+          <div id="stars"></div>
+        </div>
+
+        <div id="glow">
+          <div class="circle"></div>
+          <div class="circle"></div>
+        </div>
+      </button>
+    </div>
+    {% endif %}
+
     <!-- Footer -->
     <div class="footer">
       <h2>
@@ -172,6 +190,28 @@ templates/index.html:
         fileInput.addEventListener("change", function () {
           const form = fileInput.parentElement.parentElement;
           form.submit();
+        });
+
+        // JavaScript code to copy the result image to the clipboard
+        const copyButton = document.getElementById("copyButton");
+        copyButton.addEventListener("click", function () {
+          const resultImage = document.querySelector("#output-image img");
+          const imgURL = resultImage.src;
+
+          // Create a temporary input element to copy the image URL
+          const tempInput = document.createElement("input");
+          tempInput.value = imgURL;
+          document.body.appendChild(tempInput);
+
+          // Select and copy the value to the clipboard
+          tempInput.select();
+          document.execCommand("copy");
+
+          // Remove the temporary input element
+          document.body.removeChild(tempInput);
+
+          // Provide user feedback
+          alert("Result image URL copied to clipboard!");
         });
       });
     </script>

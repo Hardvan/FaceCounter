@@ -53,6 +53,11 @@
       </form>
     </div>
 
+    <!-- Display the loading message -->
+    <div id="loading" style="display: none">
+      <p>Loading...</p>
+    </div>
+
     <!-- Display the original & ourput image side by side -->
     {% if uploaded %}
     <div class="result">
@@ -148,6 +153,25 @@
           // Provide user feedback
           alert("Result image URL copied to clipboard!");
         });
+      });
+
+      // JavaScript code to handle loading state
+      const form = document.querySelector("form");
+      const loading = document.getElementById("loading");
+      const copyButton = document.getElementById("copyButton");
+
+      form.addEventListener("submit", function () {
+        // Show loading message
+        loading.style.display = "flex";
+
+        // Disable the "Copy Result Image" button
+        copyButton.disabled = true;
+      });
+
+      // After the result is ready, hide loading message and enable the button
+      window.addEventListener("load", function () {
+        loading.style.display = "none";
+        copyButton.disabled = false;
       });
     </script>
   </body>
