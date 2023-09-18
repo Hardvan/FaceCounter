@@ -71,7 +71,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 40px 20px; /* Adjusted padding for mobile */
+    padding: 40px 10px; /* Adjusted padding for mobile */
     color: #fff;
   }
 
