@@ -116,47 +116,65 @@ serene-section {
 
 @media (max-width: 768px) {
   .serene-section {
-    padding: 40px 20px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 80px 50px;
     color: #fff;
   }
 
   .serene-container {
+    position: relative;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    flex-direction: column;
+    max-width: 100%;
     text-align: center;
   }
 
   .serene-main-title {
-    font-size: 2.5em;
-    margin-bottom: 20px;
-  }
-
-  .serene-section-title {
-    font-size: 2.5em;
-    margin-bottom: 20px;
+    font-size: 4em;
+    margin-bottom: 30px;
   }
 
   .serene-content {
+    position: relative;
+    width: 100%; /* Adjusted width */
+    /* max-width: 600px; */
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
   }
 
-  .serene-image img {
+  .serene-content .serene-image {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .serene-content .serene-image img {
+    z-index: 111;
     max-width: 100%;
     height: auto;
+    object-fit: cover;
     border-radius: 10px;
   }
 
-  .serene-text-box {
+  .serene-content .serene-text-box {
+    z-index: 222;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(20px);
     padding: 20px;
-    max-width: 400px;
+    max-width: 100%;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     margin-top: 20px;
+  }
+
+  .serene-content .serene-text-box h3 {
+    font-size: 2em;
+    margin-bottom: 10px;
   }
 }
