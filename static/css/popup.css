@@ -1,9 +1,10 @@
 .popup {
   display: none;
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: rgba(151, 133, 133, 0.8);
+  left: 50%; /* Horizontally center the popup */
+  bottom: 30px;
+  transform: translateX(-50%); /* Center the popup horizontally */
+  background-color: #311529;
   color: #fff;
   border-radius: 5px;
   padding: 10px 20px;
@@ -35,5 +36,11 @@
   }
   to {
     opacity: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .popup {
+    padding: 10px;
   }
 }
