@@ -116,15 +116,47 @@ serene-section {
 
 @media (max-width: 768px) {
   .serene-section {
-    padding: 40px 50px;
+    padding: 40px 20px;
+    color: #fff;
   }
 
   .serene-container {
+    display: flex;
     flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 
   .serene-main-title {
     font-size: 2.5em;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+  }
+
+  .serene-section-title {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+  }
+
+  .serene-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .serene-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+
+  .serene-text-box {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    padding: 20px;
+    max-width: 400px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin-top: 20px;
   }
 }
