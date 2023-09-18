@@ -1,4 +1,4 @@
-serene-section {
+.serene-section {
   position: relative;
   display: flex;
   justify-content: center;
@@ -114,60 +114,48 @@ serene-section {
   padding-left: 50px;
 }
 
+/* CSS for screens up to 768px (mobile) */
 @media (max-width: 768px) {
   .serene-section {
     position: relative;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 80px 50px;
+    padding: 40px 20px; /* Adjusted padding for mobile */
     color: #fff;
   }
 
   .serene-container {
     position: relative;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    max-width: 100%;
     text-align: center;
+    max-width: 100%; /* Adjusted max-width for mobile */
   }
 
   .serene-main-title {
-    font-size: 4em;
-    margin-bottom: 30px;
+    font-size: 2.5em;
+    margin-bottom: 20px;
   }
 
   .serene-content {
     position: relative;
-    width: 100%; /* Adjusted width */
-    /* max-width: 600px; */
+    width: 100%; /* Adjusted width for mobile */
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
   }
 
-  .serene-content .serene-image {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .serene-content .serene-image img {
-    z-index: 111;
-    max-width: 100%;
-    height: auto;
-    object-fit: cover;
-    border-radius: 10px;
-  }
-
   .serene-content .serene-text-box {
     z-index: 222;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(20px);
-    padding: 20px;
-    max-width: 100%;
+    padding: 20px; /* Adjusted padding for mobile */
+    max-width: 100%; /* Adjusted max-width for mobile */
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     margin-top: 20px;
