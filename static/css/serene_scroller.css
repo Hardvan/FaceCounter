@@ -113,3 +113,18 @@ serene-section {
 .serene-media-info li:nth-child(4) {
   padding-left: 50px;
 }
+
+@media (max-width: 768px) {
+  .serene-section {
+    padding: 40px 50px;
+  }
+
+  .serene-container {
+    flex-direction: column;
+  }
+
+  .serene-main-title {
+    font-size: 2.5em;
+    margin-bottom: 30px;
+  }
+}
