@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="./static/css/serene_scroller.css" />
     <link rel="stylesheet" href="./static/css/loader.css" />
     <link rel="stylesheet" href="./static/css/glow_button.css" />
+    <link rel="stylesheet" href="./static/css/popup.css" />
 
     <!-- ScrollRevealJS-->
     <script src="https://unpkg.com/scrollreveal"></script>
@@ -180,6 +181,13 @@
     </div>
     {% endif %}
 
+    <!-- Display the popup message -->
+    <div id="popup" class="popup">
+      <div class="popup-content">
+        <p id="popup-message">📋 Copied to clipboard!</p>
+      </div>
+    </div>
+
     <!-- Footer -->
     <div class="footer">
       <h2>
@@ -205,6 +213,8 @@
 
         // JavaScript code to copy the result image to the clipboard
         const copyButton = document.getElementById("copyButton");
+        const popup = document.getElementById("popup");
+
         copyButton.addEventListener("click", function () {
           const resultImage = document.querySelector("#output-image img");
           const imgURL = resultImage.src;
@@ -221,8 +231,16 @@
           // Remove the temporary input element
           document.body.removeChild(tempInput);
 
+          // Show the popup
+          popup.style.display = "block";
+
+          // Hide the popup after 3 seconds (3000 milliseconds)
+          setTimeout(function () {
+            popup.style.display = "none";
+          }, 3000);
+
           // Provide user feedback
-          alert("Result image URL copied to clipboard!");
+          // alert("Result image URL copied to clipboard!");
         });
       });
 
