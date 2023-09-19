@@ -1,3 +1,114 @@
+app.py:
+from flask import Flask, render_template, request, redirect
+import os
+import cv2
+import time
+
+
+# Custom modules
+import CountFaces
+
+
+app = Flask(__name__)
+
+app.config['UPLOAD_FOLDER'] = 'static/uploads/'
+
+# Ensure the UPLOAD_FOLDER exists
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+
+    if request.method == 'POST':
+        # Check if the post request has the file part
+        if 'file' not in request.files:
+            return redirect(request.url)
+
+        file = request.files['file']
+
+        # If the user does not select a file, the browser submits an empty file
+        if file.filename == '':
+            return redirect(request.url)
+
+        if file:
+            # Save the uploaded image to the UPLOAD_FOLDER
+            image_path = os.path.join(
+                app.config['UPLOAD_FOLDER'], 'uploaded_image.jpg')
+            file.save(image_path)
+
+            # Measure the time taken to process the image
+            start_time = time.time()
+
+            # Call the face detection function
+            output_image_path = os.path.join(
+                app.config['UPLOAD_FOLDER'], 'output_image.jpg')
+            face_count = CountFaces.count_and_highlight_faces(
+                image_path, output_image_path)
+
+            # Calculate the processing time
+            processing_time = time.time() - start_time
+            processing_time = round(processing_time, 2)
+
+            # Delay for 5 seconds on purpose (for testing Loading... animation)
+            time.sleep(5)
+
+            return render_template('index.html',
+                                   uploaded=True,
+                                   face_count=face_count,
+                                   processing_time=processing_time)
+
+    return render_template('index.html', uploaded=False)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
+
+CountFaces.py:
+import cv2
+
+
+def count_and_highlight_faces(input_image_path, output_image_path):
+
+    # Load the pre-trained face detection model
+    face_cascade = cv2.CascadeClassifier(
+        cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+
+    # Read the input image
+    image = cv2.imread(input_image_path)
+
+    # Convert the image to grayscale for face detection
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    # Perform face detection
+    faces = face_cascade.detectMultiScale(
+        gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
+
+    # Draw rectangles around detected faces and label them
+    for i, (x, y, w, h) in enumerate(faces):
+        cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        cv2.putText(image, f'Face {i + 1}', (x, y - 10),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+
+    # Save the output image with faces highlighted
+    cv2.imwrite(output_image_path, image)
+
+    # Return the count of detected faces
+    return len(faces)
+
+
+# Example usage:
+if __name__ == '__main__':
+
+    # Replace with your input image path
+    input_image_path = './static/images/faces.png'
+    # Replace with your desired output image path
+    output_image_path = './static/output/output.png'
+    face_count = count_and_highlight_faces(input_image_path, output_image_path)
+    print(f'Total Faces Detected: {face_count}')
+
+
 templates/index.html:
 <!DOCTYPE html>
 <html lang="en">
@@ -14,6 +125,7 @@ templates/index.html:
     <link rel="stylesheet" href="./static/css/serene_scroller.css" />
     <link rel="stylesheet" href="./static/css/loader.css" />
     <link rel="stylesheet" href="./static/css/glow_button.css" />
+    <link rel="stylesheet" href="./static/css/popup.css" />
 
     <!-- ScrollRevealJS-->
     <script src="https://unpkg.com/scrollreveal"></script>
@@ -181,6 +293,13 @@ templates/index.html:
     </div>
     {% endif %}
 
+    <!-- Display the popup message -->
+    <div id="popup" class="popup">
+      <div class="popup-content">
+        <p id="popup-message">📋 Copied to clipboard!</p>
+      </div>
+    </div>
+
     <!-- Footer -->
     <div class="footer">
       <h2>
@@ -206,6 +325,8 @@ templates/index.html:
 
         // JavaScript code to copy the result image to the clipboard
         const copyButton = document.getElementById("copyButton");
+        const popup = document.getElementById("popup");
+
         copyButton.addEventListener("click", function () {
           const resultImage = document.querySelector("#output-image img");
           const imgURL = resultImage.src;
@@ -222,8 +343,16 @@ templates/index.html:
           // Remove the temporary input element
           document.body.removeChild(tempInput);
 
+          // Show the popup
+          popup.style.display = "block";
+
+          // Hide the popup after 3 seconds (3000 milliseconds)
+          setTimeout(function () {
+            popup.style.display = "none";
+          }, 3000);
+
           // Provide user feedback
-          alert("Result image URL copied to clipboard!");
+          // alert("Result image URL copied to clipboard!");
         });
       });
 
@@ -408,44 +537,5 @@ h3 {
     margin-top: 10px;
   }
 }
-
-
-static/js/index.js:
-// * ScollReveal effect
-// Common reveal options to create reveal animations
-ScrollReveal({
-  //   reset: true,
-  distance: "60px",
-  duration: 1250,
-  delay: 200,
-});
-
-// Target elements and specify options to create reveal animations
-ScrollReveal().reveal(".serene-main-title, .serene-section-title", {
-  delay: 250,
-  origin: "left",
-});
-ScrollReveal().reveal(".sec-01 .serene-image, .serene-info", {
-  delay: 300,
-  origin: "bottom",
-});
-ScrollReveal().reveal(".serene-text-box", {
-  delay: 350,
-  origin: "right",
-});
-ScrollReveal().reveal(".serene-media-icons i", {
-  delay: 250,
-  origin: "bottom",
-  interval: 100,
-});
-ScrollReveal().reveal(".sec-02 .serene-image, .sec-03 .serene-image", {
-  delay: 250,
-  origin: "top",
-});
-ScrollReveal().reveal(".serene-media-info li", {
-  delay: 250,
-  origin: "left",
-  interval: 100,
-});
 
 
