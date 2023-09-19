@@ -34,3 +34,8 @@ ScrollReveal().reveal(".serene-media-info li", {
   origin: "left",
   interval: 100,
 });
+ScrollReveal().reveal(".face-item", {
+  delay: 250,
+  origin: "left",
+  interval: 100,
+});
