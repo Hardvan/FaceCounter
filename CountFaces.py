@@ -19,6 +19,9 @@ def count_and_highlight_faces(input_image_path, output_image_path):
     faces = face_cascade.detectMultiScale(
         gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
 
+    # Sort the faces based on X-coordinate (left to right)
+    faces = sorted(faces, key=lambda x: x[0])
+
     # Draw rectangles around detected faces and label them
     for i, (x, y, w, h) in enumerate(faces):
         cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)

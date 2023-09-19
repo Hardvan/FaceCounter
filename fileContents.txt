@@ -67,6 +67,7 @@ if __name__ == "__main__":
 
 CountFaces.py:
 import cv2
+import os
 
 
 def count_and_highlight_faces(input_image_path, output_image_path):
@@ -77,6 +78,7 @@ def count_and_highlight_faces(input_image_path, output_image_path):
 
     # Read the input image
     image = cv2.imread(input_image_path)
+    original_image = image.copy()
 
     # Convert the image to grayscale for face detection
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -85,11 +87,19 @@ def count_and_highlight_faces(input_image_path, output_image_path):
     faces = face_cascade.detectMultiScale(
         gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
 
+    # Sort the faces based on X-coordinate (left to right)
+    faces = sorted(faces, key=lambda x: x[0])
+
     # Draw rectangles around detected faces and label them
     for i, (x, y, w, h) in enumerate(faces):
         cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
         cv2.putText(image, f'Face {i + 1}', (x, y - 10),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+
+        # Save each face to a separate image file
+        face = original_image[y:y+h, x:x+w]
+        face_filename = os.path.join('static/uploads/', f'face_{i+1}.jpg')
+        cv2.imwrite(face_filename, face)
 
     # Save the output image with faces highlighted
     cv2.imwrite(output_image_path, image)
@@ -124,6 +134,7 @@ templates/index.html:
     <link rel="stylesheet" href="./static/css/index.css" />
     <link rel="stylesheet" href="./static/css/serene_scroller.css" />
     <link rel="stylesheet" href="./static/css/loader.css" />
+    <link rel="stylesheet" href="./static/css/face.css" />
     <link rel="stylesheet" href="./static/css/glow_button.css" />
     <link rel="stylesheet" href="./static/css/popup.css" />
 
@@ -257,10 +268,8 @@ templates/index.html:
         />
       </div>
     </div>
-    {% endif %}
 
     <!-- Display the parameters -->
-    {% if uploaded %}
     <div class="parameters-container">
       <!-- Display the no. of faces detected -->
       <div class="parameter">
@@ -274,10 +283,20 @@ templates/index.html:
       </div>
       <!-- Display the confidence score of the face detection -->
     </div>
-    {% endif %}
+
+    <div class="face-container">
+      <h2>Detected Faces</h2>
+      {% for i in range(face_count) %}
+      <div class="face-item">
+        <img
+          src="{{ url_for('static', filename='uploads/face_' + (i+1)|string + '.jpg') }}"
+          alt="Face {{ i + 1 }}"
+        />
+      </div>
+      {% endfor %}
+    </div>
 
     <!-- Display the "Share" button -->
-    {% if uploaded %}
     <div class="share-button">
       <button id="copyButton" class="glow-btn" type="button">
         <strong>Copy Result Image</strong>
@@ -369,173 +388,5 @@ templates/index.html:
     </script>
   </body>
 </html>
-
-
-static/css/index.css:
-/* Add these styles to your static/css/index.css file */
-
-:root {
-  --primary-color: #bf55ec; /* Rich violet color */
-  --secondary-color: #e8e8e8; /* Light text color */
-  --dark-color: #121212; /* Dark background color */
-  --light-color: #212121; /* Light background color */
-  --shadow-color: #bf55ec; /* Rich violet shadow color */
-  --loading-box-color: #64ccc5;
-}
-
-body {
-  background-color: var(--dark-color);
-  color: var(--secondary-color);
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
-h1,
-h2,
-h3 {
-  color: var(--primary-color);
-}
-
-.header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  background-color: var(--light-color);
-  text-align: center;
-}
-
-.upload-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
-  gap: 20px;
-}
-
-.custum-file-upload {
-  height: 200px;
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  border: 2px dashed var(--primary-color);
-  background-color: var(--light-color);
-  padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0px 48px 35px -48px var(--shadow-color);
-}
-
-.custum-file-upload .icon svg {
-  height: 80px;
-  fill: var(--primary-color);
-}
-
-.custum-file-upload .text span {
-  font-weight: 400;
-  color: var(--secondary-color); /* Light text color */
-}
-
-.custum-file-upload input {
-  display: none;
-}
-
-.result {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-}
-
-.result-image {
-  text-align: center;
-}
-
-.result-image h2 {
-  font-size: 18px;
-  margin-top: 10px;
-}
-
-.result-image img {
-  width: 70%;
-  border-radius: 10px;
-}
-
-.parameters-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  margin-top: 20px;
-}
-
-.parameter {
-  text-align: center;
-}
-
-.parameter h2 {
-  font-size: 18px;
-  color: var(--primary-color);
-}
-
-.parameter h3 {
-  font-size: 24px;
-}
-
-.footer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 200px;
-}
-
-.footer a {
-  color: var(--primary-color);
-  text-decoration: none;
-}
-
-.footer a:hover {
-  text-decoration: underline;
-}
-
-@media (max-width: 768px) {
-  .header {
-    padding: 40px;
-  }
-
-  .result {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 20px 20px;
-  }
-
-  .result-image {
-    text-align: center;
-  }
-
-  .result-image img {
-    width: 100%;
-  }
-
-  .footer {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 10px;
-    margin-top: 200px;
-    margin-left: 20px;
-    margin-right: 20px;
-    text-align: center;
-  }
-
-  .footer a {
-    margin-top: 10px;
-  }
-}
 
 

@@ -16,10 +16,30 @@ app.config['UPLOAD_FOLDER'] = 'static/uploads/'
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 
+def clear_upload_folder():
+
+    folder = app.config['UPLOAD_FOLDER']
+
+    for filename in os.listdir(folder):
+
+        file_path = os.path.join(folder, filename)
+
+        try:
+            if os.path.isfile(file_path):
+                os.unlink(file_path)  # Delete the file
+
+        except Exception as e:
+            print(f"Error deleting {file_path}: {e}")
+
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
 
     if request.method == 'POST':
+
+        # Clear the upload folder before saving the new image
+        clear_upload_folder()
+
         # Check if the post request has the file part
         if 'file' not in request.files:
             return redirect(request.url)
@@ -50,7 +70,7 @@ def index():
             processing_time = round(processing_time, 2)
 
             # Delay for 5 seconds on purpose (for testing Loading... animation)
-            time.sleep(5)
+            # time.sleep(5)
 
             return render_template('index.html',
                                    uploaded=True,
