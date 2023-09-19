@@ -1,4 +1,5 @@
 import cv2
+import os
 
 
 def count_and_highlight_faces(input_image_path, output_image_path):
@@ -9,6 +10,7 @@ def count_and_highlight_faces(input_image_path, output_image_path):
 
     # Read the input image
     image = cv2.imread(input_image_path)
+    original_image = image.copy()
 
     # Convert the image to grayscale for face detection
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -22,6 +24,11 @@ def count_and_highlight_faces(input_image_path, output_image_path):
         cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
         cv2.putText(image, f'Face {i + 1}', (x, y - 10),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+
+        # Save each face to a separate image file
+        face = original_image[y:y+h, x:x+w]
+        face_filename = os.path.join('static/uploads/', f'face_{i+1}.jpg')
+        cv2.imwrite(face_filename, face)
 
     # Save the output image with faces highlighted
     cv2.imwrite(output_image_path, image)

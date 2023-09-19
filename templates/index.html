@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="./static/css/index.css" />
     <link rel="stylesheet" href="./static/css/serene_scroller.css" />
     <link rel="stylesheet" href="./static/css/loader.css" />
+    <link rel="stylesheet" href="./static/css/face.css" />
     <link rel="stylesheet" href="./static/css/glow_button.css" />
     <link rel="stylesheet" href="./static/css/popup.css" />
 
@@ -159,6 +160,18 @@
         <h3>{{ processing_time }} seconds</h3>
       </div>
       <!-- Display the confidence score of the face detection -->
+    </div>
+
+    <div class="face-container">
+      <h2>Detected Faces</h2>
+      {% for i in range(face_count) %}
+      <div class="face-item">
+        <img
+          src="{{ url_for('static', filename='uploads/face_' + (i+1)|string + '.jpg') }}"
+          alt="Face {{ i + 1 }}"
+        />
+      </div>
+      {% endfor %}
     </div>
 
     <!-- Display the "Share" button -->
