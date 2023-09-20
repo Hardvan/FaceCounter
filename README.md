@@ -16,7 +16,7 @@ This project provides a Python script for counting faces in an image and a web a
 
 ### Output Image
 
-![Output Image](./static/output/output.png)
+![Output Image](./static/output/output.jpg)
 
 ### Individual Faces Extracted
 
