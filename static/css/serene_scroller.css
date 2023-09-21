@@ -68,6 +68,17 @@
   padding-left: 20px;
 }
 
+.sec-01{
+  padding-left: 160px;
+}
+.webLink{
+  text-decoration: none;
+  color: White;
+}
+.webLink :hover{
+    color: #bf55ec;
+}
+
 /* CSS for screens up to 900px (mobile) */
 @media (max-width: 900px) {
   .serene-section {
