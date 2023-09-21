@@ -1,6 +1,6 @@
 # Face Counter
 
-This project provides a Python script for counting faces in an image and a web application to visualize the count and highlight the faces in the image.
+Welcome to Face Counter, a Python project that simplifies face counting in images and provides an intuitive web application for visualizing the results with highlighted faces. Whether you're curious about the number of faces in a group photo or need to analyze facial data, Face Counter has got you covered.
 
 ## [Link to the Website](https://facecounter.onrender.com) (Hosted on Render)
 
@@ -20,19 +20,7 @@ This project provides a Python script for counting faces in an image and a web a
 
 ### Individual Faces Extracted
 
-<div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;">
-
-![Face 1](./static/output/face_1.jpg)
-
-![Face 2](./static/output/face_2.jpg)
-
-![Face 3](./static/output/face_3.jpg)
-
-![Face 4](./static/output/face_4.jpg)
-
-![Face 5](./static/output/face_5.jpg)
-
-</div>
+![Face 1](./static/output/face_1.jpg) ![Face 2](./static/output/face_2.jpg) ![Face 3](./static/output/face_3.jpg) ![Face 4](./static/output/face_4.jpg) ![Face 5](./static/output/face_5.jpg)
 
 ## Installation
 
