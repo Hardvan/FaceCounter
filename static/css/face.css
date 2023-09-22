@@ -23,6 +23,17 @@
   border-radius: 10px;
 }
 
+.face-item img:hover {
+  transform: scale(1.1); /* Increase size on hover */
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.selected-face img {
+  transform: scale(1.1); /* Increase size when selected */
+  transition: transform 0.2s ease-in-out;
+}
+
 @media (max-width: 900px) {
   .face-container {
     flex-direction: column;

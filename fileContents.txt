@@ -17,10 +17,30 @@ app.config['UPLOAD_FOLDER'] = 'static/uploads/'
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 
+def clear_upload_folder():
+
+    folder = app.config['UPLOAD_FOLDER']
+
+    for filename in os.listdir(folder):
+
+        file_path = os.path.join(folder, filename)
+
+        try:
+            if os.path.isfile(file_path):
+                os.unlink(file_path)  # Delete the file
+
+        except Exception as e:
+            print(f"Error deleting {file_path}: {e}")
+
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
 
     if request.method == 'POST':
+
+        # Clear the upload folder before saving the new image
+        clear_upload_folder()
+
         # Check if the post request has the file part
         if 'file' not in request.files:
             return redirect(request.url)
@@ -51,7 +71,7 @@ def index():
             processing_time = round(processing_time, 2)
 
             # Delay for 5 seconds on purpose (for testing Loading... animation)
-            time.sleep(5)
+            # time.sleep(5)
 
             return render_template('index.html',
                                    uploaded=True,
@@ -144,21 +164,19 @@ templates/index.html:
 
   <body>
     <div class="header">
-      <h1>Face Counter</h1>
-
       <!-- Intro -->
       <h2>
         Look into the mirror, what do you see? You, me, and someone else I see
         👀
       </h2>
-      <h3>Telling you the number of faces in the picture you provide</h3>
+      <h3>"Telling you the number of faces in the picture you provide."</h3>
     </div>
 
     <!-- Serene Scoller Section -->
     <div class="serene-div">
       <section class="sec-01 serene-section">
         <div class="serene-container">
-          <h2 class="serene-main-title">Serene Scroller</h2>
+          <h2 class="serene-main-title">Face Counter</h2>
           <div class="serene-content">
             <div class="serene-image">
               <img
@@ -167,12 +185,14 @@ templates/index.html:
               />
             </div>
             <div class="serene-text-box">
-              <h3>Lorem Ipsum</h3>
+              <h3>Introducing <br />Face Counter</h3>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Provident exercitationem dolor deserunt consectetur esse tenetur
-                ex maxime at alias explicabo inventore itaque nam, commodi
-                dolorum quam ratione quibusdam voluptate labore?
+                Welcome to Face Counter, a Python project that simplifies face
+                counting in images and provides an intuitive web application for
+                visualizing the results with highlighted faces.Whether you're
+                managing crowd sizes, conducting market research, or simply
+                curious about the people in your photos, Face Counter has got
+                you covered.
               </p>
             </div>
           </div>
@@ -181,22 +201,48 @@ templates/index.html:
 
       <section class="sec-02 serene-section">
         <div class="serene-container">
-          <h3 class="serene-section-title">Lorem Ipsum</h3>
+          <h2 class="serene-section-title">How does it work?</h2>
           <div class="serene-content">
             <div class="serene-image">
               <img
-                src="{{url_for('static', filename='images/serene2.jpg')}}"
+                src="{{url_for('static', filename='images/edited_Output.png')}}"
                 alt="img2"
               />
             </div>
             <div class="serene-info">
-              <h4 class="serene-info-title">Description</h4>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum
-                quibusdam corporis accusamus aspernatur aut voluptatum earum,
-                qui hic doloribus facilis libero eum sit, soluta autem obcaecati
-                perferendis, culpa a deserunt!
-              </p>
+              <h3 class="serene-info-title"><u>Steps</u></h3>
+              <ul>
+                <li>
+                  Begin by uploading an image of your choice to the app.
+                  <br /><br />
+                </li>
+                <li>
+                  Then, advanced facial detection algorithms are used to locate
+                  and identify faces within the uploaded image.
+                  <br /><br />
+                </li>
+                <li>
+                  Once the faces are detected,
+                  <u
+                    ><a href="https://facecounter.onrender.com/" class="webLink"
+                      >Face Counter</a
+                    ></u
+                  >
+                  accurately counts them, using precise computational methods.
+                  <br /><br />
+                </li>
+                <li>
+                  Simultaneously, the app generates a final image. In this
+                  image, it highlights each detected face by enclosing it in a
+                  box and assigning a face number to indicate the count.
+                  <br /><br />
+                </li>
+                <li>
+                  You will receive the original image, the enhanced version, and
+                  the faces it detected, making it easy to compare and share
+                  your results.
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -284,6 +330,7 @@ templates/index.html:
       <!-- Display the confidence score of the face detection -->
     </div>
 
+    <!-- Display the detected faces -->
     <div class="face-container">
       <h2>Detected Faces</h2>
       {% for i in range(face_count) %}
@@ -388,5 +435,43 @@ templates/index.html:
     </script>
   </body>
 </html>
+
+
+static/css/face.css:
+.face-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 20px;
+}
+
+.face-container h2 {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.face-item {
+  width: 10%;
+  margin: 10px;
+  text-align: center;
+}
+
+.face-item img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+@media (max-width: 900px) {
+  .face-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .face-item {
+    width: 80%;
+  }
+}
 
 
