@@ -43,13 +43,14 @@
               />
             </div>
             <div class="serene-text-box">
-              <h3>
-                Introducing <br>Face Counter
-              </h3>
+              <h3>Introducing <br />Face Counter</h3>
               <p>
-                Welcome to Face Counter, a Python project that simplifies face counting in images and provides an intuitive web application for visualizing the results with highlighted faces.Whether you're managing
-                crowd sizes, conducting market research, or simply curious about
-                the people in your photos, Face Counter has got you covered.
+                Welcome to Face Counter, a Python project that simplifies face
+                counting in images and provides an intuitive web application for
+                visualizing the results with highlighted faces.Whether you're
+                managing crowd sizes, conducting market research, or simply
+                curious about the people in your photos, Face Counter has got
+                you covered.
               </p>
             </div>
           </div>
@@ -68,19 +69,38 @@
             </div>
             <div class="serene-info">
               <h3 class="serene-info-title"><u>Steps</u></h3>
-              <p>
-                <ul>
-                <li>Begin by uploading an image of their choice to the app. <br><br><li>
-                Then, advanced facial detection algorithms are then used to
-                locate and identify faces within the uploaded image. <br><br><li> Once the
-                faces are detected, <u><a href="https://facecounter.onrender.com/" class="webLink">Face Counter</a></u> accurately counts them, using
-                precise computational methods. <br><br><li> Simultaneously, the app
-                generates a final image. In this image, it highlights each
-                detected face by enclosing it in a box and assigning a face
-                number to indicate the count. <br><br><li> You will receive the
-                original image , the enhanced version AND the faces it detected, making it easy to
-                compare and share their results.</ul>
-              </p>
+              <ul>
+                <li>
+                  Begin by uploading an image of your choice to the app.
+                  <br /><br />
+                </li>
+                <li>
+                  Then, advanced facial detection algorithms are used to locate
+                  and identify faces within the uploaded image.
+                  <br /><br />
+                </li>
+                <li>
+                  Once the faces are detected,
+                  <u
+                    ><a href="https://facecounter.onrender.com/" class="webLink"
+                      >Face Counter</a
+                    ></u
+                  >
+                  accurately counts them, using precise computational methods.
+                  <br /><br />
+                </li>
+                <li>
+                  Simultaneously, the app generates a final image. In this
+                  image, it highlights each detected face by enclosing it in a
+                  box and assigning a face number to indicate the count.
+                  <br /><br />
+                </li>
+                <li>
+                  You will receive the original image, the enhanced version, and
+                  the faces it detected, making it easy to compare and share
+                  your results.
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -168,6 +188,7 @@
       <!-- Display the confidence score of the face detection -->
     </div>
 
+    <!-- Display the detected faces -->
     <div class="face-container">
       <h2>Detected Faces</h2>
       {% for i in range(face_count) %}
