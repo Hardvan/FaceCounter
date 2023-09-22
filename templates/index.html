@@ -22,21 +22,19 @@
 
   <body>
     <div class="header">
-      <h1>Face Counter</h1>
-
       <!-- Intro -->
       <h2>
         Look into the mirror, what do you see? You, me, and someone else I see
         👀
       </h2>
-      <h3>Telling you the number of faces in the picture you provide</h3>
+      <h3>"Telling you the number of faces in the picture you provide."</h3>
     </div>
 
     <!-- Serene Scoller Section -->
     <div class="serene-div">
       <section class="sec-01 serene-section">
         <div class="serene-container">
-          <h2 class="serene-main-title">Serene Scroller</h2>
+          <h2 class="serene-main-title">Face Counter</h2>
           <div class="serene-content">
             <div class="serene-image">
               <img
@@ -45,12 +43,13 @@
               />
             </div>
             <div class="serene-text-box">
-              <h3>Lorem Ipsum</h3>
+              <h3>
+                Introducing <br>Face Counter
+              </h3>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Provident exercitationem dolor deserunt consectetur esse tenetur
-                ex maxime at alias explicabo inventore itaque nam, commodi
-                dolorum quam ratione quibusdam voluptate labore?
+                Welcome to Face Counter, a Python project that simplifies face counting in images and provides an intuitive web application for visualizing the results with highlighted faces.Whether you're managing
+                crowd sizes, conducting market research, or simply curious about
+                the people in your photos, Face Counter has got you covered.
               </p>
             </div>
           </div>
@@ -59,21 +58,28 @@
 
       <section class="sec-02 serene-section">
         <div class="serene-container">
-          <h3 class="serene-section-title">Lorem Ipsum</h3>
+          <h2 class="serene-section-title">How does it work?</h2>
           <div class="serene-content">
             <div class="serene-image">
               <img
-                src="{{url_for('static', filename='images/serene2.jpg')}}"
+                src="{{url_for('static', filename='images/edited_Output.png')}}"
                 alt="img2"
               />
             </div>
             <div class="serene-info">
-              <h4 class="serene-info-title">Description</h4>
+              <h3 class="serene-info-title"><u>Steps</u></h3>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum
-                quibusdam corporis accusamus aspernatur aut voluptatum earum,
-                qui hic doloribus facilis libero eum sit, soluta autem obcaecati
-                perferendis, culpa a deserunt!
+                <ul>
+                <li>Begin by uploading an image of their choice to the app. <br><br><li>
+                Then, advanced facial detection algorithms are then used to
+                locate and identify faces within the uploaded image. <br><br><li> Once the
+                faces are detected, <u><a href="https://facecounter.onrender.com/" class="webLink">Face Counter</a></u> accurately counts them, using
+                precise computational methods. <br><br><li> Simultaneously, the app
+                generates a final image. In this image, it highlights each
+                detected face by enclosing it in a box and assigning a face
+                number to indicate the count. <br><br><li> You will receive the
+                original image , the enhanced version AND the faces it detected, making it easy to
+                compare and share their results.</ul>
               </p>
             </div>
           </div>
