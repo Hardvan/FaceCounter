@@ -9,6 +9,10 @@
   --loading-box-color: #64ccc5;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: var(--dark-color);
   color: var(--secondary-color);
@@ -159,6 +163,40 @@ h3 {
 
 .footer a:hover {
   text-decoration: underline;
+}
+
+/* CSS for the sticky "See results" arrow */
+.sticky-arrow {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: var(--primary-color); /* Customize the background color */
+  color: white;
+  padding: 10px;
+  border-radius: 50px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.sticky-arrow a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+}
+
+.sticky-arrow img {
+  width: 20px; /* Customize the arrow icon size */
+  margin-right: 10px; /* Adjust the spacing between the icon and text */
+}
+
+/* Add a hover effect */
+.sticky-arrow:hover {
+  background-color: var(
+    --secondary-color
+  ); /* Customize the hover background color */
 }
 
 @media (max-width: 768px) {

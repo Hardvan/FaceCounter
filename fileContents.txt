@@ -1,3 +1,332 @@
+templates/index.html:
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FaceCounter</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="./static/images/favicon.png" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./static/css/index.css" />
+    <link rel="stylesheet" href="./static/css/serene_scroller.css" />
+    <link rel="stylesheet" href="./static/css/loader.css" />
+    <link rel="stylesheet" href="./static/css/face.css" />
+    <link rel="stylesheet" href="./static/css/glow_button.css" />
+    <link rel="stylesheet" href="./static/css/popup.css" />
+
+    <!-- ScrollRevealJS-->
+    <script src="https://unpkg.com/scrollreveal"></script>
+  </head>
+
+  <body>
+    <div class="header">
+      <!-- Intro -->
+      <h2>
+        Look into the mirror, what do you see? You, me, and someone else I see
+        👀
+      </h2>
+      <h3>"Telling you the number of faces in the picture you provide."</h3>
+    </div>
+
+    <!-- Serene Scoller Section -->
+    <div class="serene-div">
+      <section class="sec-01 serene-section">
+        <div class="serene-container">
+          <h2 class="serene-main-title">Face Counter</h2>
+          <div class="serene-content">
+            <div class="serene-image">
+              <img
+                src="{{url_for('static', filename='images/serene1.jpg')}}"
+                alt="img1"
+              />
+            </div>
+            <div class="serene-text-box">
+              <h3>Introducing <br />Face Counter</h3>
+              <p>
+                Welcome to Face Counter, a Python project that simplifies face
+                counting in images and provides an intuitive web application for
+                visualizing the results with highlighted faces.Whether you're
+                managing crowd sizes, conducting market research, or simply
+                curious about the people in your photos, Face Counter has got
+                you covered.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec-02 serene-section">
+        <div class="serene-container">
+          <h2 class="serene-section-title">How does it work?</h2>
+          <div class="serene-content">
+            <div class="serene-image">
+              <img
+                src="{{url_for('static', filename='images/edited_Output.png')}}"
+                alt="img2"
+              />
+            </div>
+            <div class="serene-info">
+              <h3 class="serene-info-title"><u>Steps</u></h3>
+              <ul>
+                <li>
+                  Begin by uploading an image of your choice to the app.
+                  <br /><br />
+                </li>
+                <li>
+                  Then, advanced facial detection algorithms are used to locate
+                  and identify faces within the uploaded image.
+                  <br /><br />
+                </li>
+                <li>
+                  Once the faces are detected,
+                  <u
+                    ><a href="https://facecounter.onrender.com/" class="webLink"
+                      >Face Counter</a
+                    ></u
+                  >
+                  accurately counts them, using precise computational methods.
+                  <br /><br />
+                </li>
+                <li>
+                  Simultaneously, the app generates a final image. In this
+                  image, it highlights each detected face by enclosing it in a
+                  box and assigning a face number to indicate the count.
+                  <br /><br />
+                </li>
+                <li>
+                  You will receive the original image, the enhanced version, and
+                  the faces it detected, making it easy to compare and share
+                  your results.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Input to accept image from user -->
+    <div class="upload-section">
+      <form method="POST" enctype="multipart/form-data">
+        <label for="file" class="custum-file-upload">
+          <div class="icon">
+            <svg viewBox="0 0 24 24" fill="" xmlns="http://www.w3.org/2000/svg">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></g>
+              <g id="SVGRepo_iconCarrier">
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M10 1C9.73478 1 9.48043 1.10536 9.29289 1.29289L3.29289 7.29289C3.10536 7.48043 3 7.73478 3 8V20C3 21.6569 4.34315 23 6 23H7C7.55228 23 8 22.5523 8 22C8 21.4477 7.55228 21 7 21H6C5.44772 21 5 20.5523 5 20V9H10C10.5523 9 11 8.55228 11 8V3H18C18.5523 3 19 3.44772 19 4V9C19 9.55228 19.4477 10 20 10C20.5523 10 21 9.55228 21 9V4C21 2.34315 19.6569 1 18 1H10ZM9 7H6.41421L9 4.41421V7ZM14 15.5C14 14.1193 15.1193 13 16.5 13C17.8807 13 19 14.1193 19 15.5V16V17H20C21.1046 17 22 17.8954 22 19C22 20.1046 21.1046 21 20 21H13C11.8954 21 11 20.1046 11 19C11 17.8954 11.8954 17 13 17H14V16V15.5ZM16.5 11C14.142 11 12.2076 12.8136 12.0156 15.122C10.2825 15.5606 9 17.1305 9 19C9 21.2091 10.7909 23 13 23H20C22.2091 23 24 21.2091 24 19C24 17.1305 22.7175 15.5606 20.9844 15.122C20.7924 12.8136 18.858 11 16.5 11Z"
+                  fill=""
+                ></path>
+              </g>
+            </svg>
+          </div>
+          <div class="text">
+            <span>Click to upload image</span>
+          </div>
+          <input id="file" type="file" name="file" accept=".jpg, .jpeg, .png" />
+          <input type="submit" value="Upload and Analyze" class="btn" />
+        </label>
+      </form>
+    </div>
+
+    <!-- Display the loading message -->
+    <div id="loading" class="loading-container">
+      <p>Processing your image...</p>
+      <div class="banter-loader">
+        <div class="banter-loader__box"></div>
+        <div class="banter-loader__box"></div>
+        <div class="banter-loader__box"></div>
+        <div class="banter-loader__box"></div>
+        <div class="banter-loader__box"></div>
+        <div class="banter-loader__box"></div>
+        <div class="banter-loader__box"></div>
+        <div class="banter-loader__box"></div>
+        <div class="banter-loader__box"></div>
+      </div>
+    </div>
+
+    <!-- Display the original & ourput image side by side -->
+    {% if uploaded %}
+    <div class="result" id="result">
+      <div class="result-image" id="original-image">
+        <h2>Original Image</h2>
+        <img
+          src="{{ url_for('static', filename='uploads/uploaded_image.jpg') }}"
+          alt="Original Image"
+        />
+      </div>
+      <div class="result-image" id="output-image">
+        <h2>Result Image ({{ face_count }} Faces Detected)</h2>
+        <img
+          src="{{ url_for('static', filename='uploads/output_image.jpg') }}"
+          alt="Result Image"
+        />
+      </div>
+    </div>
+
+    <!-- Display the parameters in a table -->
+    <table class="parameters-table">
+      <tr>
+        <th>Parameter</th>
+        <th>Value</th>
+      </tr>
+      <tr>
+        <td>No. of Faces Detected</td>
+        <td>{{ face_count }}</td>
+      </tr>
+      <tr>
+        <td>Processing Time ⌚</td>
+        <td>{{ processing_time }} seconds</td>
+      </tr>
+      <tr>
+        <td>Confidence Score</td>
+        <td>{{ confidence_score }}</td>
+      </tr>
+      <tr>
+        <td>Image Resolution</td>
+        <td>{{ image_resolution }}</td>
+      </tr>
+      <tr>
+        <td>File Size</td>
+        <td>{{ file_size }}</td>
+      </tr>
+    </table>
+
+    <!-- Display the "Share" button -->
+    <div class="share-button">
+      <button id="copyButton" class="glow-btn" type="button">
+        <strong>Copy Result Image</strong>
+        <div id="container-stars">
+          <div id="stars"></div>
+        </div>
+
+        <div id="glow">
+          <div class="circle"></div>
+          <div class="circle"></div>
+        </div>
+      </button>
+    </div>
+    {% endif %}
+
+    <!-- Display the popup message -->
+    <div id="popup" class="popup">
+      <div class="popup-content">
+        <p id="popup-message">📋 Copied to clipboard!</p>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <h2>
+        Made with ❤️ by
+        <a href="" target="_blank">Hardvan</a>,
+        <a href="" target="_blank">Krounosity</a>
+      </h2>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="./static/js/index.js"></script>
+    <script>
+      // JavaScript code to automatically submit the form on file selection
+      document.addEventListener("DOMContentLoaded", function () {
+        const fileInput = document.getElementById("file");
+        fileInput.addEventListener("change", function () {
+          const form = fileInput.parentElement.parentElement;
+          // Loading message
+          const loading = document.getElementById("loading");
+          loading.style.display = "block";
+          form.submit();
+        });
+
+        // JavaScript code to copy the result image to the clipboard
+        const copyButton = document.getElementById("copyButton");
+        const popup = document.getElementById("popup");
+
+        copyButton.addEventListener("click", function () {
+          const resultImage = document.querySelector("#output-image img");
+          const imgURL = resultImage.src;
+
+          // Create a temporary input element to copy the image URL
+          const tempInput = document.createElement("input");
+          tempInput.value = imgURL;
+          document.body.appendChild(tempInput);
+
+          // Select and copy the value to the clipboard
+          tempInput.select();
+          document.execCommand("copy");
+
+          // Remove the temporary input element
+          document.body.removeChild(tempInput);
+
+          // Show the popup
+          popup.style.display = "block";
+
+          // Hide the popup after 3 seconds (3000 milliseconds)
+          setTimeout(function () {
+            popup.style.display = "none";
+          }, 3000);
+
+          // Provide user feedback
+          // alert("Result image URL copied to clipboard!");
+        });
+      });
+
+      // JavaScript code to handle loading state
+      const form = document.querySelector("form");
+      const loading = document.getElementById("loading");
+      const copyButton = document.getElementById("copyButton");
+
+      // After the result is ready, hide loading message and enable the button
+      window.addEventListener("load", function () {
+        loading.style.display = "none";
+        copyButton.disabled = false;
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const faces = document.querySelectorAll(".face-link");
+
+        // Function to handle face click event
+        function handleFaceClick(event) {
+          event.preventDefault();
+
+          // Remove the "selected-face" class from all faces
+          faces.forEach((face) => face.classList.remove("selected-face"));
+
+          // Add the "selected-face" class to the clicked face
+          event.currentTarget.classList.add("selected-face");
+
+          // Get the face number from the "data-face" attribute
+          const faceNumber = event.currentTarget.getAttribute("data-face");
+
+          // Create a new window/tab with only the selected face
+          window.open(
+            "{{ url_for('static', filename='uploads/face_') }}" +
+              faceNumber +
+              ".jpg",
+            "_blank"
+          );
+        }
+
+        // Add click event listeners to all faces
+        faces.forEach((face) => {
+          face.addEventListener("click", handleFaceClick);
+        });
+      });
+    </script>
+  </body>
+</html>
+
+
 app.py:
 from flask import Flask, render_template, request, redirect
 import os
@@ -62,7 +391,7 @@ def index():
             # Call the face detection function
             output_image_path = os.path.join(
                 app.config['UPLOAD_FOLDER'], 'output_image.jpg')
-            face_count = CountFaces.count_and_highlight_faces(
+            face_count, faces = CountFaces.count_and_highlight_faces(
                 image_path, output_image_path)
 
             # Calculate the processing time
@@ -71,7 +400,7 @@ def index():
             # Get additional information
             image_resolution = get_image_resolution(image_path)
             file_size = get_file_size(image_path)
-            confidence_score = calculate_confidence_score()
+            confidence_score = calculate_confidence_score(faces)
 
             # Render the template with additional information
             return render_template('index.html',
@@ -101,66 +430,30 @@ def get_file_size(image_path):
     return f"{file_size} MB"
 
 
-def calculate_confidence_score():
+def calculate_confidence_score(faces):
 
-    return 0.85  # TODO: Implement this
+    # No faces detected
+    if len(faces) == 0:
+        return 0.0
+
+    total_aspect_ratio = 0.0
+
+    for (x, y, w, h) in faces:
+        aspect_ratio = float(w) / h
+        total_aspect_ratio += aspect_ratio
+
+    average_aspect_ratio = total_aspect_ratio / len(faces)
+
+    # Define a threshold for aspect ratio
+    threshold = 1.0  # You can adjust this threshold as needed
+
+    # Calculate the confidence score based on the threshold
+    confidence_score = min(1.0, average_aspect_ratio / threshold)
+
+    return round(confidence_score, 2)
 
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-
-CountFaces.py:
-import cv2
-import os
-
-
-def count_and_highlight_faces(input_image_path, output_image_path):
-
-    # Load the pre-trained face detection model
-    face_cascade = cv2.CascadeClassifier(
-        cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-
-    # Read the input image
-    image = cv2.imread(input_image_path)
-    original_image = image.copy()
-
-    # Convert the image to grayscale for face detection
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-    # Perform face detection
-    faces = face_cascade.detectMultiScale(
-        gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
-
-    # Sort the faces based on X-coordinate (left to right)
-    faces = sorted(faces, key=lambda x: x[0])
-
-    # Draw rectangles around detected faces and label them
-    for i, (x, y, w, h) in enumerate(faces):
-        cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
-        cv2.putText(image, f'Face {i + 1}', (x, y - 10),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
-
-        # Save each face to a separate image file
-        face = original_image[y:y+h, x:x+w]
-        face_filename = os.path.join('static/uploads/', f'face_{i+1}.jpg')
-        cv2.imwrite(face_filename, face)
-
-    # Save the output image with faces highlighted
-    cv2.imwrite(output_image_path, image)
-
-    # Return the count of detected faces
-    return len(faces)
-
-
-# Example usage:
-if __name__ == '__main__':
-
-    # Replace with your input image path
-    input_image_path = './static/images/faces.png'
-    # Replace with your desired output image path
-    output_image_path = './static/output/output.png'
-    face_count = count_and_highlight_faces(input_image_path, output_image_path)
-    print(f'Total Faces Detected: {face_count}')
 
 

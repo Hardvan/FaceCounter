@@ -58,8 +58,8 @@ if __name__ == "__main__":
     index_js = "static/js/index.js"
 
     file_list = [
-        app_py,
-        count_faces_py
+        index_html,
+        app_py
     ]
 
     read_files_in_directory(".", file_list)

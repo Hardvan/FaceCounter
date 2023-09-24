@@ -156,7 +156,7 @@
 
     <!-- Display the original & ourput image side by side -->
     {% if uploaded %}
-    <div class="result">
+    <div class="result" id="result">
       <div class="result-image" id="original-image">
         <h2>Original Image</h2>
         <img
@@ -214,6 +214,17 @@
           <div class="circle"></div>
         </div>
       </button>
+    </div>
+
+    <!-- Sticky "See results" arrow -->
+    <div id="see-results-arrow" class="sticky-arrow">
+      <a href="#result">
+        <img
+          src="{{ url_for('static', filename='images/arrow-down.png') }}"
+          alt="See results"
+        />
+        <span>See Results</span>
+      </a>
     </div>
     {% endif %}
 
