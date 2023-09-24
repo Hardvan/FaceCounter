@@ -197,6 +197,22 @@
       </tr>
     </table>
 
+    <!-- Display the detected faces -->
+    <div class="face-container">
+      <h2>Detected Faces</h2>
+      {% for i in range(face_count) %}
+      <div class="face-item">
+        <a href="#" class="face-link" data-face="{{ i+1 }}">
+          <img
+            src="{{ url_for('static', filename='uploads/face_' + (i+1)|string + '.jpg') }}"
+            alt="Face {{ i + 1 }}"
+            data-face="{{ i+1 }}"
+          />
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+
     <!-- Display the "Share" button -->
     <div class="share-button">
       <button id="copyButton" class="glow-btn" type="button">
