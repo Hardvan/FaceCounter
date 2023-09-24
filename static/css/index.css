@@ -112,6 +112,39 @@ h3 {
   font-size: 24px;
 }
 
+/* Alternate parameter styles */
+/* CSS for the parameters table */
+.parameters-table {
+  width: 80%;
+  margin: 30px auto;
+  border-collapse: collapse;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: var(--light-color);
+}
+
+.parameters-table th,
+.parameters-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.parameters-table th {
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 18px;
+}
+
+.parameters-table td {
+  font-size: 24px;
+}
+
+/* Add some hover effect if desired */
+.parameters-table tr:hover {
+  background-color: #f5f5f5;
+  color: var(--primary-color);
+}
+
 .footer {
   display: flex;
   justify-content: center;
