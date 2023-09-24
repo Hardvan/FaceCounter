@@ -49,19 +49,17 @@ if __name__ == "__main__":
 
     app_py = "app.py"
     count_faces_py = "CountFaces.py"
-    
+
     index_html = "templates/index.html"
-    
+
     index_css = "static/css/index.css"
     face_css = "static/css/face.css"
-    
+
     index_js = "static/js/index.js"
 
     file_list = [
-        app_py,
-        count_faces_py,
         index_html,
-        face_css
+        app_py,
     ]
 
     read_files_in_directory(".", file_list)

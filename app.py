@@ -36,7 +36,6 @@ def clear_upload_folder():
 def index():
 
     if request.method == 'POST':
-
         # Clear the upload folder before saving the new image
         clear_upload_folder()
 
@@ -66,18 +65,44 @@ def index():
                 image_path, output_image_path)
 
             # Calculate the processing time
-            processing_time = time.time() - start_time
-            processing_time = round(processing_time, 2)
+            processing_time = round(time.time() - start_time, 2)
 
-            # Delay for 5 seconds on purpose (for testing Loading... animation)
-            # time.sleep(5)
+            # Get additional information
+            image_resolution = get_image_resolution(image_path)
+            file_size = get_file_size(image_path)
+            confidence_score = calculate_confidence_score()
 
+            # Render the template with additional information
             return render_template('index.html',
                                    uploaded=True,
                                    face_count=face_count,
-                                   processing_time=processing_time)
+                                   processing_time=processing_time,
+                                   image_resolution=image_resolution,
+                                   file_size=file_size,
+                                   confidence_score=confidence_score)
 
     return render_template('index.html', uploaded=False)
+
+
+def get_image_resolution(image_path):
+
+    img = cv2.imread(image_path)
+    height, width, channels = img.shape
+
+    return f"{width} x {height}"
+
+
+def get_file_size(image_path):
+
+    file_size = os.path.getsize(image_path)
+    file_size = round(file_size / (1024 * 1024), 2)  # Convert to MB
+
+    return f"{file_size} MB"
+
+
+def calculate_confidence_score():
+
+    return 0.85  # TODO: Implement this
 
 
 if __name__ == "__main__":

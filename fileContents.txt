@@ -1,144 +1,3 @@
-app.py:
-from flask import Flask, render_template, request, redirect
-import os
-import cv2
-import time
-
-
-# Custom modules
-import CountFaces
-
-
-app = Flask(__name__)
-
-app.config['UPLOAD_FOLDER'] = 'static/uploads/'
-
-# Ensure the UPLOAD_FOLDER exists
-os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-
-
-def clear_upload_folder():
-
-    folder = app.config['UPLOAD_FOLDER']
-
-    for filename in os.listdir(folder):
-
-        file_path = os.path.join(folder, filename)
-
-        try:
-            if os.path.isfile(file_path):
-                os.unlink(file_path)  # Delete the file
-
-        except Exception as e:
-            print(f"Error deleting {file_path}: {e}")
-
-
-@app.route('/', methods=['GET', 'POST'])
-def index():
-
-    if request.method == 'POST':
-
-        # Clear the upload folder before saving the new image
-        clear_upload_folder()
-
-        # Check if the post request has the file part
-        if 'file' not in request.files:
-            return redirect(request.url)
-
-        file = request.files['file']
-
-        # If the user does not select a file, the browser submits an empty file
-        if file.filename == '':
-            return redirect(request.url)
-
-        if file:
-            # Save the uploaded image to the UPLOAD_FOLDER
-            image_path = os.path.join(
-                app.config['UPLOAD_FOLDER'], 'uploaded_image.jpg')
-            file.save(image_path)
-
-            # Measure the time taken to process the image
-            start_time = time.time()
-
-            # Call the face detection function
-            output_image_path = os.path.join(
-                app.config['UPLOAD_FOLDER'], 'output_image.jpg')
-            face_count = CountFaces.count_and_highlight_faces(
-                image_path, output_image_path)
-
-            # Calculate the processing time
-            processing_time = time.time() - start_time
-            processing_time = round(processing_time, 2)
-
-            # Delay for 5 seconds on purpose (for testing Loading... animation)
-            # time.sleep(5)
-
-            return render_template('index.html',
-                                   uploaded=True,
-                                   face_count=face_count,
-                                   processing_time=processing_time)
-
-    return render_template('index.html', uploaded=False)
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
-
-
-CountFaces.py:
-import cv2
-import os
-
-
-def count_and_highlight_faces(input_image_path, output_image_path):
-
-    # Load the pre-trained face detection model
-    face_cascade = cv2.CascadeClassifier(
-        cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-
-    # Read the input image
-    image = cv2.imread(input_image_path)
-    original_image = image.copy()
-
-    # Convert the image to grayscale for face detection
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-    # Perform face detection
-    faces = face_cascade.detectMultiScale(
-        gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
-
-    # Sort the faces based on X-coordinate (left to right)
-    faces = sorted(faces, key=lambda x: x[0])
-
-    # Draw rectangles around detected faces and label them
-    for i, (x, y, w, h) in enumerate(faces):
-        cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
-        cv2.putText(image, f'Face {i + 1}', (x, y - 10),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
-
-        # Save each face to a separate image file
-        face = original_image[y:y+h, x:x+w]
-        face_filename = os.path.join('static/uploads/', f'face_{i+1}.jpg')
-        cv2.imwrite(face_filename, face)
-
-    # Save the output image with faces highlighted
-    cv2.imwrite(output_image_path, image)
-
-    # Return the count of detected faces
-    return len(faces)
-
-
-# Example usage:
-if __name__ == '__main__':
-
-    # Replace with your input image path
-    input_image_path = './static/images/faces.png'
-    # Replace with your desired output image path
-    output_image_path = './static/output/output.png'
-    face_count = count_and_highlight_faces(input_image_path, output_image_path)
-    print(f'Total Faces Detected: {face_count}')
-
-
 templates/index.html:
 <!DOCTYPE html>
 <html lang="en">
@@ -335,10 +194,13 @@ templates/index.html:
       <h2>Detected Faces</h2>
       {% for i in range(face_count) %}
       <div class="face-item">
-        <img
-          src="{{ url_for('static', filename='uploads/face_' + (i+1)|string + '.jpg') }}"
-          alt="Face {{ i + 1 }}"
-        />
+        <a href="#" class="face-link" data-face="{{ i+1 }}">
+          <img
+            src="{{ url_for('static', filename='uploads/face_' + (i+1)|string + '.jpg') }}"
+            alt="Face {{ i + 1 }}"
+            data-face="{{ i+1 }}"
+          />
+        </a>
       </div>
       {% endfor %}
     </div>
@@ -432,46 +294,126 @@ templates/index.html:
         loading.style.display = "none";
         copyButton.disabled = false;
       });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const faces = document.querySelectorAll(".face-link");
+
+        // Function to handle face click event
+        function handleFaceClick(event) {
+          event.preventDefault();
+
+          // Remove the "selected-face" class from all faces
+          faces.forEach((face) => face.classList.remove("selected-face"));
+
+          // Add the "selected-face" class to the clicked face
+          event.currentTarget.classList.add("selected-face");
+
+          // Get the face number from the "data-face" attribute
+          const faceNumber = event.currentTarget.getAttribute("data-face");
+
+          // Create a new window/tab with only the selected face
+          window.open(
+            "{{ url_for('static', filename='uploads/face_') }}" +
+              faceNumber +
+              ".jpg",
+            "_blank"
+          );
+        }
+
+        // Add click event listeners to all faces
+        faces.forEach((face) => {
+          face.addEventListener("click", handleFaceClick);
+        });
+      });
     </script>
   </body>
 </html>
 
 
-static/css/face.css:
-.face-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-start;
-  margin-top: 20px;
-}
+app.py:
+from flask import Flask, render_template, request, redirect
+import os
+import cv2
+import time
 
-.face-container h2 {
-  width: 100%;
-  text-align: center;
-  margin-bottom: 20px;
-}
 
-.face-item {
-  width: 10%;
-  margin: 10px;
-  text-align: center;
-}
+# Custom modules
+import CountFaces
 
-.face-item img {
-  width: 100%;
-  border-radius: 10px;
-}
 
-@media (max-width: 900px) {
-  .face-container {
-    flex-direction: column;
-    align-items: center;
-  }
+app = Flask(__name__)
 
-  .face-item {
-    width: 80%;
-  }
-}
+app.config['UPLOAD_FOLDER'] = 'static/uploads/'
+
+# Ensure the UPLOAD_FOLDER exists
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+
+
+def clear_upload_folder():
+
+    folder = app.config['UPLOAD_FOLDER']
+
+    for filename in os.listdir(folder):
+
+        file_path = os.path.join(folder, filename)
+
+        try:
+            if os.path.isfile(file_path):
+                os.unlink(file_path)  # Delete the file
+
+        except Exception as e:
+            print(f"Error deleting {file_path}: {e}")
+
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+
+    if request.method == 'POST':
+
+        # Clear the upload folder before saving the new image
+        clear_upload_folder()
+
+        # Check if the post request has the file part
+        if 'file' not in request.files:
+            return redirect(request.url)
+
+        file = request.files['file']
+
+        # If the user does not select a file, the browser submits an empty file
+        if file.filename == '':
+            return redirect(request.url)
+
+        if file:
+            # Save the uploaded image to the UPLOAD_FOLDER
+            image_path = os.path.join(
+                app.config['UPLOAD_FOLDER'], 'uploaded_image.jpg')
+            file.save(image_path)
+
+            # Measure the time taken to process the image
+            start_time = time.time()
+
+            # Call the face detection function
+            output_image_path = os.path.join(
+                app.config['UPLOAD_FOLDER'], 'output_image.jpg')
+            face_count = CountFaces.count_and_highlight_faces(
+                image_path, output_image_path)
+
+            # Calculate the processing time
+            processing_time = time.time() - start_time
+            processing_time = round(processing_time, 2)
+
+            # Delay for 5 seconds on purpose (for testing Loading... animation)
+            # time.sleep(5)
+
+            return render_template('index.html',
+                                   uploaded=True,
+                                   face_count=face_count,
+                                   processing_time=processing_time)
+
+    return render_template('index.html', uploaded=False)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
 
 
