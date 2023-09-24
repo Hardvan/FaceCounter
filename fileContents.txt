@@ -82,11 +82,7 @@ templates/index.html:
                 </li>
                 <li>
                   Once the faces are detected,
-                  <u
-                    ><a href="https://facecounter.onrender.com/" class="webLink"
-                      >Face Counter</a
-                    ></u
-                  >
+                  <u><a href="/" class="webLink">Face Counter</a></u>
                   accurately counts them, using precise computational methods.
                   <br /><br />
                 </li>
@@ -202,6 +198,22 @@ templates/index.html:
       </tr>
     </table>
 
+    <!-- Display the detected faces -->
+    <div class="face-container">
+      <h2>Detected Faces</h2>
+      {% for i in range(face_count) %}
+      <div class="face-item">
+        <a href="#" class="face-link" data-face="{{ i+1 }}">
+          <img
+            src="{{ url_for('static', filename='uploads/face_' + (i+1)|string + '.jpg') }}"
+            alt="Face {{ i + 1 }}"
+            data-face="{{ i+1 }}"
+          />
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+
     <!-- Display the "Share" button -->
     <div class="share-button">
       <button id="copyButton" class="glow-btn" type="button">
@@ -215,6 +227,16 @@ templates/index.html:
           <div class="circle"></div>
         </div>
       </button>
+    </div>
+
+    <!-- Sticky "See results" arrow -->
+    <div id="see-results-arrow" class="sticky-arrow">
+      <a href="#result">
+        <img
+          src="{{ url_for('static', filename='images/arrow-down.png') }}"
+          alt="See results"
+        />
+      </a>
     </div>
     {% endif %}
 
@@ -320,6 +342,12 @@ templates/index.html:
         // Add click event listeners to all faces
         faces.forEach((face) => {
           face.addEventListener("click", handleFaceClick);
+        });
+
+        // Disable the see results arrow after click
+        const seeResultsArrow = document.getElementById("see-results-arrow");
+        seeResultsArrow.addEventListener("click", function () {
+          seeResultsArrow.style.display = "none";
         });
       });
     </script>

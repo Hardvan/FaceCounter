@@ -250,8 +250,8 @@
     <div class="footer">
       <h2>
         Made with ❤️ by
-        <a href="" target="_blank">Hardvan</a>,
-        <a href="" target="_blank">Krounosity</a>
+        <a href="https://github.com/Hardvan" target="_blank">Hardvan</a>,
+        <a href="https://github.com/Krounosity" target="_blank">Krounosity</a>
       </h2>
     </div>
 
@@ -260,6 +260,12 @@
     <script>
       // JavaScript code to automatically submit the form on file selection
       document.addEventListener("DOMContentLoaded", function () {
+        // Add code to scroll to the result section
+        const resultSection = document.getElementById("result");
+        if (resultSection) {
+          resultSection.scrollIntoView({ behavior: "smooth" });
+        }
+
         const fileInput = document.getElementById("file");
         fileInput.addEventListener("change", function () {
           const form = fileInput.parentElement.parentElement;
@@ -296,9 +302,6 @@
           setTimeout(function () {
             popup.style.display = "none";
           }, 3000);
-
-          // Provide user feedback
-          // alert("Result image URL copied to clipboard!");
         });
       });
 
