@@ -36,8 +36,8 @@ def count_and_highlight_faces(input_image_path, output_image_path):
     # Save the output image with faces highlighted
     cv2.imwrite(output_image_path, image)
 
-    # Return the count of detected faces
-    return len(faces)
+    # Return the count of detected faces and the individual faces
+    return len(faces), faces
 
 
 # Example usage:

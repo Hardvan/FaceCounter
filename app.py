@@ -61,7 +61,7 @@ def index():
             # Call the face detection function
             output_image_path = os.path.join(
                 app.config['UPLOAD_FOLDER'], 'output_image.jpg')
-            face_count = CountFaces.count_and_highlight_faces(
+            face_count, faces = CountFaces.count_and_highlight_faces(
                 image_path, output_image_path)
 
             # Calculate the processing time
@@ -70,7 +70,7 @@ def index():
             # Get additional information
             image_resolution = get_image_resolution(image_path)
             file_size = get_file_size(image_path)
-            confidence_score = calculate_confidence_score()
+            confidence_score = calculate_confidence_score(faces)
 
             # Render the template with additional information
             return render_template('index.html',
@@ -100,9 +100,27 @@ def get_file_size(image_path):
     return f"{file_size} MB"
 
 
-def calculate_confidence_score():
+def calculate_confidence_score(faces):
 
-    return 0.85  # TODO: Implement this
+    # No faces detected
+    if len(faces) == 0:
+        return 0.0
+
+    total_aspect_ratio = 0.0
+
+    for (x, y, w, h) in faces:
+        aspect_ratio = float(w) / h
+        total_aspect_ratio += aspect_ratio
+
+    average_aspect_ratio = total_aspect_ratio / len(faces)
+
+    # Define a threshold for aspect ratio
+    threshold = 1.0  # You can adjust this threshold as needed
+
+    # Calculate the confidence score based on the threshold
+    confidence_score = min(1.0, average_aspect_ratio / threshold)
+
+    return round(confidence_score, 2)
 
 
 if __name__ == "__main__":
