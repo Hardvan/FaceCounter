@@ -223,7 +223,6 @@
           src="{{ url_for('static', filename='images/arrow-down.png') }}"
           alt="See results"
         />
-        <span>See Results</span>
       </a>
     </div>
     {% endif %}
@@ -330,6 +329,12 @@
         // Add click event listeners to all faces
         faces.forEach((face) => {
           face.addEventListener("click", handleFaceClick);
+        });
+
+        // Disable the see results arrow after click
+        const seeResultsArrow = document.getElementById("see-results-arrow");
+        seeResultsArrow.addEventListener("click", function () {
+          seeResultsArrow.style.display = "none";
         });
       });
     </script>
